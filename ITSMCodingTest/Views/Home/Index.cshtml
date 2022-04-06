@@ -1,0 +1,168 @@
+﻿@{
+    ViewBag.Title = "Address Book";
+}
+
+<div class="jumbotron mt-5">
+    <h3>ITSM Coding Challenge 2021</h3>
+    <p>The goal of this challenge is to create a working simple address book using existing technologies such as C# .NET, MVC, JavaScript, HTML and CSS. 
+        By completing this challenge, it demonstrates that you have an understanding of these languages as well as popular frameworks utilized such as jQuery and Entity Framework.</p>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="loading-overlay-panel" style="display: none;">
+            <div class="loading-overlay">
+                <div class="row h-100 align-content-center">
+                    <div class="col-12">
+                        <div class="loading-inner"><i class="fas fa-spinner fa-spin fa-6x"></i></div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="address-book-container">
+
+            @* This section is for the Toolbar *@
+            <div class="row">
+                <div class="col-12">
+                    <div class="address-book-toolbar">
+                        <button id="newButton" class="btn btn-outline-dark toolbar-button" title="Add Entry" data-toggle="tooltip" onclick="addNewEntry();"><i class="fas fa-plus"></i></button>
+                        <button id="editButton" class="btn btn-outline-dark toolbar-button" title="Edit" data-toggle="tooltip" onclick="editRecord(currentRecord.id);" disabled><i class="fas fa-edit"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            @* This section is for the Record List and the Display *@
+            <div class="row">
+                @* This part is the record entries *@
+                <div class="col-4">
+                    <div class="address-book-entries">
+                        
+                    </div>
+                </div>
+
+                @* This part is the non-editable display *@
+                <div class="col-8 pl-0" id="readOnlyDisplay" style="display: none;">
+                    <div class="address-book-display">
+                        <div id="readOnlyPanel">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <img src="~/Content/Images/blankuser.png" onerror="this.src = 'Content/Images/blankuser.png';" class="display-photo" id="displayPhoto"/>
+                                    <h4 id="displayName">#FIRST #LAST</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6" id="displayAddressColumn">
+                                    Address
+                                    <ul class="fa-ul">
+                                        <li><span class="fa-li"><i class="fas fa-map-marker-alt"></i></span><span id="displayAddress">#ADDRESS</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-6" id="displayContactColumn">
+                                    Contact
+                                    <ul class="fa-ul">
+                                        <li id="displayPhoneItem"><span class="fa-li"><i class="fas fa-phone"></i></span><span id="displayPhone">#PHONE</span></li>
+                                        <li id="displayEmailItem"><span class="fa-li"><i class="fas fa-envelope"></i></span><span id="displayEmail">#EMAIL</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @* This part is the editable portion of the display *@
+                <div class="col-8 pl-0" id="editableDisplay" style="display: none;">
+                    <div class="address-book-display">
+                        @* Photo *@
+                        <div class="row mb-3">
+                            <label class="col-2 control-label">Photo:</label>
+                            <div class="col">
+                                <img id="editPhoto" src="~/Content/Images/blankuser.png" class="record-photo"  onerror="this.src = 'Content/Images/blankuser.png';" />
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="photoUpload">New Photo:</label>
+                            <div class="col">
+                                <input type="file" class="form-control" id="photoUpload"/>
+                            </div>
+                        </div>
+                        @* First and Last Name *@
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputFirstName">First Name:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputFirstName" class="form-control" data-required autocomplete="off" maxlength="100" />
+                            </div>
+                            <label class="col-2 control-label" for="inputLastName">Last Name:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputLastName" class="form-control" data-required autocomplete="off" maxlength="100" />
+                            </div>
+                        </div>
+                        @* Address *@
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputAddress">Address:</label>
+                            <div class="col">
+                                <input type="text" id="inputAddress" class="form-control" autocomplete="off" maxlength="100"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col offset-2">
+                                <input type="text" id="inputAddressLine2" class="form-control" autocomplete="off" maxlength="100"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputCity">City:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputCity" class="form-control" autocomplete="off" maxlength="100"/>
+                            </div>
+                            <label class="col-2 control-label" for="inputProvinceState">Province/State:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputProvinceState" class="form-control" autocomplete="off" maxlength="100"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputPostalZip">Postal/Zip Code:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputPostalZip" class="form-control" autocomplete="off" maxlength="50"/>
+                            </div>
+                            <label class="col-2 control-label" for="selectCountry">Country:</label>
+                            <div class="col-4">
+                                <select class="form-control" id="selectCountry" autocomplete="off" maxlength="50"></select>
+                            </div>
+                        </div>
+                        @* Phone Number and Email *@
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputPhoneNumber">Phone:</label>
+                            <div class="col-4">
+                                <input type="text" id="inputPhoneNumber" class="form-control" autocomplete="off" maxlength="50"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label class="col-2 control-label" for="inputEmailAddress">Email:</label>
+                            <div class="col">
+                                <input type="text" id="inputEmailAddress" class="form-control" autocomplete="off" maxlength="100" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col offset-2">
+                                <button id="deleteButton" onclick="deleteEntry();" class="btn btn-sm btn-outline-danger float-right">Delete</button>
+                                <button id="saveButton" onclick="saveEntry();" class="btn btn-sm btn-outline-success">Save</button>
+                                <button id="cancelButton" onclick="selectRecord(currentRecord.id);" class="btn btn-sm btn-outline-secondary">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        // Initialize the Address Book when the DOM has fully loaded
+        $(document).ready(function() {
+            initAddressBook();
+        });
+    </script>
+}

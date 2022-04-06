@@ -1,0 +1,105 @@
+﻿body {
+    background-image: url('Images/shattered-blue.png')
+}
+
+.address-book-container {
+    min-height: 700px;
+    border: 2px solid #606060;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.loading-overlay-panel {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.loading-overlay {
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+}
+
+.loading-inner {
+    width: 128px;
+    height: 128px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.address-book-toolbar {
+    background-color: #e0e0e0;
+    height: 48px;
+}
+
+.toolbar-button {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.address-book-entries {
+    border-right: 1px solid #e0e0e0;
+    height: 652px;
+    overflow-y: scroll;
+    overflow-x: hidden
+}
+
+.address-book-display {
+    height: 652px;
+    overflow-x: hidden;
+    padding-top: 1rem;
+    padding-right: 15px;
+}
+
+.address-book-record {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: block;
+    color: #000000;
+}
+
+.address-book-record:nth-child(even) {
+    background-color: #f0f0f0;
+}
+
+.address-book-record.active {
+    background-color: #477fff;
+    color: #ffffff;
+}
+
+.address-book-record.active:hover {
+    color: #ffffff;
+}
+
+.address-book-record:hover {
+    color: initial;
+    text-decoration: initial;
+}
+
+.record-photo {
+    width: 64px;
+    height: 64px;
+}
+
+.display-photo {
+    height: 256px;
+    width: 256px;
+    margin-bottom: 10px;
+}
+
+.control-label {
+    margin-top: 7px;
+    text-align: right;
+}
