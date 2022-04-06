@@ -132,39 +132,6 @@ function addNewEntry() {
     
 }
 
-/**
- * Function to refresh All Records with a selected record id Added by Peng
- * @param {any} selectedId
- */
-function refreshAllRecords(selectedId) {
-    $.ajax({
-        url: "Home/GetAllEntries",
-        type: "GET",
-        dataType: "json"
-    }).done(function (data) {
-        if (data.result) {
-            addressBookRecords = data.resultSet;
-            sortRecords();
-            displayRecords(selectedId);
-            return;
-        }
-        toastr.error(data.error, "Failed to get Load Records");
-    }).fail(function (xhr) {
-        toastr.error(xhrErrorMessage(xhr), "Failed to Load Records");
-    });
-}
-
-/**
- * Get Current Record by Record Id
- * @param {any} selectedId
- */
-function getCurrentRecordById(recordId) {
-    if (recordId) {
-        currentRecord = addressBookRecords.find(function (item) { return item.id == recordId; });
-    } else {
-        currentRecord = null;
-    }
-}
 
 // Selects a record based on the element in the list or a record ID number
 function selectRecord(record) {
@@ -272,6 +239,7 @@ function saveEntry() {
             if ($(this).val() == null || $(this).val() == "") {
                 toastr.error($("label[for*='" + $(this).attr("id") + "']").text().replace(":", "") + " is required");
                 $(this).css("border-color", "red");
+                hideLoading();
                 validateFlag = false;
             } else {
                 $(this).css("border-color", "#ced4da");
@@ -364,4 +332,38 @@ function deleteEntry() {
         });
     }
     
+}
+//Utility Functions Added by Peng as Below
+/**
+ * Function to refresh All Records with a selected record id Added by Peng
+ * @param {any} selectedId
+ */
+function refreshAllRecords(selectedId) {
+    $.ajax({
+        url: "Home/GetAllEntries",
+        type: "GET",
+        dataType: "json"
+    }).done(function (data) {
+        if (data.result) {
+            addressBookRecords = data.resultSet;
+            sortRecords();
+            displayRecords(selectedId);
+            return;
+        }
+        toastr.error(data.error, "Failed to get Load Records");
+    }).fail(function (xhr) {
+        toastr.error(xhrErrorMessage(xhr), "Failed to Load Records");
+    });
+}
+
+/**
+ * Get Current Record by Record Id
+ * @param {any} selectedId
+ */
+function getCurrentRecordById(recordId) {
+    if (recordId) {
+        currentRecord = addressBookRecords.find(function (item) { return item.id == recordId; });
+    } else {
+        currentRecord = null;
+    }
 }
